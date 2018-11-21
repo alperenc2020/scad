@@ -1,21 +1,26 @@
 // Coin Trap; a 3d-printed cage to hold a coin 
 // by AlperenCalis
-// v. 0.1, 16 November, 2018
+// v. 0.1, 21 November, 2018
 
 //parameters
-coin_d = 23.88;
-coin_th = 1.58;
+$fa=1;
+$fs=1;
+coin_d = 23.88; // diameter of a quarter
+coin_th = 1.58; // thickness of a quarter
+gap= 1;
 
+// modules---------------------------------------------------
 // the coin
-%cylinder(r=coin_d/2, th=coin_th, center=true);
- 
+module coin(coin_d,coin_th) {
+%cylinder(d=coin_d,h=coin_th, center=true);
+}
 // the trap
 difference() {
-    cube(size=coin_d,center=true);
-    cylinder(r=coin_d/3,h=coin_d*1.5,center=true);
-    rotate([90,0,0]) cylinder(r=coin_d/3,h=coin_d*1.5,
-    center=true);
-    rotate([0,90,0]) cylinder(r=coin_d/3,h=coin_d*1.5,
-    center=true);
-    sphere(d=coin_d+gap);
+    minkowski(){
+        cube(size=.8*coin_d, center=true);
+        sphere(r=coin_d*0.1);
+    }
+   translate([0,0,-coind_d]) cylinder(h=coin_d*2,d=coin_d*0.66);
+    rotate([90,0,0]) translate([0,0,-coin_d]) cylinder(h=coin_d*2,d=coin_d*0.66);
+    rotate([0,90,0]) translate([0,0,-coin_d]) cylinder(h=coin_d*2, r=coin_d*.33);
 }
